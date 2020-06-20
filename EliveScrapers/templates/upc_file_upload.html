@@ -1,0 +1,49 @@
+<html>
+    <head>
+    <link  rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .main-container{
+            margin-left: 30%;
+            /* margin-top: 10%; */
+            background-color:wheat;
+            width: 500px;
+            text-align: center;
+            padding-top: 30px;
+        }
+        .heading-container{
+            margin-left: 30%;
+            margin-top: 10%;
+            width: 500px;
+            text-align: center;
+            /* padding: 30px; */
+        }
+
+    </style>
+    </head>
+    <body>
+        <div class="container heading-container">
+            <h3>PRODUCT UPC'S FILE UPLOAD</h3>
+        </div>
+        <div class="container main-container">
+            <div class="row">               
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <form action="/marchentize_name" method="POST" enctype=multipart/form-data>
+                        <div class="form-group">
+                          <select class="form-control" id="exampleFormControlSelect1" name="supplier">
+                            <option value="0">Select Supplier</option>
+                            <option value = "1">Addison Rugs</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" class="form-control-file bg-light" id="exampleFormControlFile1" name="file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
