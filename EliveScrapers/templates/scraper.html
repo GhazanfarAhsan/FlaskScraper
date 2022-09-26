@@ -28,6 +28,7 @@
             <h3>{{ market.upper()}} PRODUCT CRAWLER</h3>
         </div>
         <div class="container main-container">
+            {% if(market != 'zomato') %}
             <div class="row">               
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                     <form action="/scraper/store" method="POST" >
@@ -39,6 +40,22 @@
                       </form>
                 </div>
             </div>
+            {% else %}
+            <div class="row">               
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <form action="/scraper/store" method="POST" >
+                        <input type="hidden" class="form-control" id="" name="market" value="{{ market }}"/>
+                        <div class="form-group">
+                            <label for="city">Select City</label>
+                            <select class="form-control" name="city" id="city">
+                                <option value="kolkata">Kolkata</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </body>
 </html>

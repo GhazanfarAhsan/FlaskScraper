@@ -13,11 +13,14 @@ from controllers.BaseController import BaseController;
 class ScraperController(BaseController):
     def __init__(self):
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
-        self.baseurl ='https://www.amazon.com'
+        self.baseurl ='';
     # scraping fiverr
     def scraper(self,data):
             if(data['market'] =="amazon"):
-                return self.scrapAmazonBestSellerProducts(data)
+                return self.scrapAmazonBestSellerProducts(data);
+            elif(data['market'] == 'zomato'):
+                return self.scrapZomatoResturants(data);
+
     
     def scrapAmazonBestSellerProducts(self,data):
         count = 0
@@ -41,6 +44,7 @@ class ScraperController(BaseController):
                 all_products_arr = data.find_all('a',class_='a-link-normal', href=True);
                 
                 count =len(all_products_arr);
+                self.baseurl ='https://www.amazon.com';
                 print(count);
                 if(count > 0):
                     for link in all_products_arr:
@@ -122,6 +126,42 @@ class ScraperController(BaseController):
         db = database();
         count = db.insert("amazon_products",columns,values);
         return count;
+
+    def scrapZomatoResturants(self,data):
+        count = 0
+        response = "";
+        message = ""
+        page = 1;
+        product_request = None;
+        db_count = 0;
+        seed(1)
+        try:
+            session = requests.Session();
+            self.baseurl = "https://www.zomato.com/";
+            response = session.get(self.baseurl+data['city'], headers = self.headers,cookies=[]);        
+            data = BeautifulSoup(response.content, 'html.parser');
+            all_res_arr = data.find_all('a',class_='sc-laTMn gITREa', href=True);
+            count =len(all_res_arr);
+            if(count > 0):
+                    for link in all_res_arr:
+                        print('GO TO PAGE----: '+self.baseurl + str(link['href']));
+                        session_pro = requests.Session();
+                        product_request = session_pro.get(self.baseurl + link['href'],headers = self.headers);
+                        print(product_request.status_code);
+        except Exception as e:
+            print(e);
+
+
+        if(message == ""):
+            message = str(count)+' Products has been scraped successfully.'+ str(db_count) + ' Products successfully saved in database';
+            
+            return self.sendResponse(message,{
+                'products_found':count,
+                'products_saved':db_count,
+                'missing':count-db_count,
+            })
+        else:
+            return self.sendError(message);
     
 
     
