@@ -18,8 +18,8 @@ class ScraperController(BaseController):
     def scraper(self,data):
             if(data['market'] =="amazon"):
                 return self.scrapAmazonBestSellerProducts(data);
-            # elif(data['market'] == 'zomato'):
-            #     return self.scrapZomatoResturants(data);
+            elif(data['market'] == 'zomato'):
+                return self.scrapZomatoResturants(data);
 
     
     def scrapAmazonBestSellerProducts(self,data):
@@ -127,8 +127,41 @@ class ScraperController(BaseController):
         count = db.insert("amazon_products",columns,values);
         return count;
 
-    # def scrapZomatoResturants(data):
-    #     return 0;
+    def scrapZomatoResturants(self,data):
+        count = 0
+        response = "";
+        message = ""
+        page = 1;
+        product_request = None;
+        db_count = 0;
+        seed(1)
+        try:
+            session = requests.Session();
+            self.baseurl = "https://www.zomato.com/";
+            response = session.get(self.baseurl+data['city'], headers = self.headers,cookies=[]);        
+            data = BeautifulSoup(response.content, 'html.parser');
+            all_res_arr = data.find_all('a',class_='sc-laTMn gITREa', href=True);
+            count =len(all_res_arr);
+            if(count > 0):
+                    for link in all_res_arr:
+                        print('GO TO PAGE----: '+self.baseurl + str(link['href']));
+                        session_pro = requests.Session();
+                        product_request = session_pro.get(self.baseurl + link['href'],headers = self.headers);
+                        print(product_request.status_code);
+        except Exception as e:
+            print(e);
+
+
+        if(message == ""):
+            message = str(count)+' Products has been scraped successfully.'+ str(db_count) + ' Products successfully saved in database';
+            
+            return self.sendResponse(message,{
+                'products_found':count,
+                'products_saved':db_count,
+                'missing':count-db_count,
+            })
+        else:
+            return self.sendError(message);
     
 
     
