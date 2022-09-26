@@ -13,11 +13,14 @@ from controllers.BaseController import BaseController;
 class ScraperController(BaseController):
     def __init__(self):
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
-        self.baseurl ='https://www.amazon.com'
+        self.baseurl ='';
     # scraping fiverr
     def scraper(self,data):
             if(data['market'] =="amazon"):
-                return self.scrapAmazonBestSellerProducts(data)
+                return self.scrapAmazonBestSellerProducts(data);
+            # elif(data['market'] == 'zomato'):
+            #     return self.scrapZomatoResturants(data);
+
     
     def scrapAmazonBestSellerProducts(self,data):
         count = 0
@@ -41,6 +44,7 @@ class ScraperController(BaseController):
                 all_products_arr = data.find_all('a',class_='a-link-normal', href=True);
                 
                 count =len(all_products_arr);
+                self.baseurl ='https://www.amazon.com';
                 print(count);
                 if(count > 0):
                     for link in all_products_arr:
@@ -122,6 +126,9 @@ class ScraperController(BaseController):
         db = database();
         count = db.insert("amazon_products",columns,values);
         return count;
+
+    # def scrapZomatoResturants(data):
+    #     return 0;
     
 
     
