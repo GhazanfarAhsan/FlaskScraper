@@ -19,8 +19,8 @@ def scraper(market):
     return render_template('scraper.html',market=market);
 
 @app.route("/scraper/store",methods=["POST"])
-def fiverr_store():
+def scraper_store():
     if request.method == 'POST':
         scraper = ScraperController();
-        message = scraper.scraper(request.form)
+        message = scraper.redirect(request.form)
         return message 
