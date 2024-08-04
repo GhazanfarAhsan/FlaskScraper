@@ -2,8 +2,7 @@ from flask import Flask
 import csv
 import requests
 from bs4 import BeautifulSoup
-import mysql.connector
-from db import database
+# from db import database
 import os
 import time
 from random import seed

@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from flask import render_template
 from controllers.MarchentizedName import Marchentizing
 from controllers.ScraperController import ScraperController
+from controllers.prediict import Prediction
 # UPLOAD_FOLDER ='\uplaods'
 
 app = Flask(__name__)
@@ -24,3 +25,14 @@ def fiverr_store():
         scraper = ScraperController();
         message = scraper.scraper(request.form)
         return message 
+# FOOTBALL PREDICTOR
+@app.route("/football/predict",methods=["GET"])
+def predictorView():
+    return render_template('prediction_view.html')
+
+@app.route("/football/predict/store",methods=["POST"])
+def predict():
+    predObj = Prediction()
+    print(request.json)
+    result = predObj.prediction(request.json['homeTeam'],request.json['awayTeam'],request.json['venue'])
+    return result 

@@ -3,7 +3,7 @@ from pickle import TRUE
 from flask import Flask
 import requests
 from bs4 import BeautifulSoup
-from db import database
+# from db import database
 import os
 import time
 from random import seed

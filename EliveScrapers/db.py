@@ -1,4 +1,6 @@
 import mysql.connector
+from dotenv import load_dotenv
+import os
 class database:
     def __init__(self):
         self.host = "localhost"
